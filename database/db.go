@@ -1,6 +1,7 @@
 package database
 
 import (
+	"datestore/models"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"log"
@@ -9,6 +10,8 @@ import (
 type DateDB interface {
 	Open() error
 	Close() error
+	PostYear(p *models.Date) error
+	GetYear() ([]*models.Date, error)
 }
 
 type DB struct {

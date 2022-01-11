@@ -12,6 +12,7 @@ type App struct {
 
 func (a *App) initRoutes() {
 	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/years", a.PostYearHandler()).Methods("POST")
 }
 
 func New() *App {
