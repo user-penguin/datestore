@@ -1,9 +1,13 @@
 package app
 
-import "github.com/gorilla/mux"
+import (
+	"datestore/database"
+	"github.com/gorilla/mux"
+)
 
 type App struct {
 	Router *mux.Router
+	DB     database.DateDB
 }
 
 func (a *App) initRoutes() {
