@@ -1,18 +1,17 @@
 package database
 
-import "datestore/models"
+import (
+	"datestore/models"
+	"log"
+)
 
-func (d *DB) PostYear(p *models.Date) error {
-	res, err := d.db.Exec(insertYearSchema, p.Year, p.CurFrom, p.CurTo, p.Ratio)
-	if err != nil {
-		return err
+func (d *DB) PostYear(p *models.Date) (int64, error) {
+	var id int64
+	if err := d.db.QueryRow(insertYearSchema, p.Year, p.CurFrom, p.CurTo, p.Ratio).Scan(&id); err != nil {
+		log.Println(err)
+		return 0, err
 	}
-	// TODO по посту возвращать id новой записи
-	_, err = res.LastInsertId()
-	if err != nil {
-		return err
-	}
-	return nil
+	return id, nil
 }
 
 func (d *DB) GetYear() ([]*models.Date, error) {

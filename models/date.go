@@ -7,10 +7,3 @@ type Date struct {
 	CurTo   string `db:"curTo"`
 	Ratio   string `db:"ratio"`
 }
-
-type DateRequest struct {
-	Year    string `db:"year"`
-	CurFrom string `db:"curFrom"`
-	CurTo   string `db:"curTo"`
-	Ratio   string `db:"ratio"`
-}

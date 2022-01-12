@@ -10,7 +10,7 @@ import (
 type DateDB interface {
 	Open() error
 	Close() error
-	PostYear(p *models.Date) error
+	PostYear(p *models.Date) (int64, error)
 	GetYear() ([]*models.Date, error)
 }
 

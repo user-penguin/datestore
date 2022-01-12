@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS date
 `
 
 var insertYearSchema = `
-INSERT INTO year(year, curFrom, curTo, ratio) VALUES ($1, $2, $3, $4) RETURNING id
+INSERT INTO date(year, curFrom, curTo, ratio) VALUES ($1, $2, $3, $4) RETURNING id
 `

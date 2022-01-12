@@ -3,6 +3,7 @@ package app
 import (
 	"datestore/helper"
 	"datestore/models"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,16 +21,22 @@ func (a *App) IndexHandler() http.HandlerFunc {
 
 func (a *App) PostYearHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		req := models.DateRequest{}
-		err := helper.Parse(w, r, &req)
+		req := models.Date{}
+		err := helper.Parse(w, r, &req) // fill the model
 		if err != nil {
 			log.Println(r.Proto, r.Method, r.RemoteAddr, r.UserAgent(), "can't parse body")
-			_, err := fmt.Fprint(w, http.StatusBadRequest)
+			_, err := fmt.Fprint(w, http.StatusBadRequest, " Bad request")
 			if err != nil {
-				return
+				log.Println(err)
 			}
-			w.Header().Add("Content-Type", "application/json")
-			w.WriteHeader(http.StatusBadRequest)
 		}
+		// here we are start to read data to DB
+		id, err := a.DB.PostYear(&req)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		req.ID = id
+		bytesDate, err := json.Marshal(req)
+		fmt.Fprint(w, string(bytesDate))
 	}
 }
